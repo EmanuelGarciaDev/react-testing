@@ -6,6 +6,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { SessionProvider, useSession } from "../../context/AuthContext";
 import { getSummaryOrders } from "../../utils/sumamry";
 
+interface User {
+    role: string;
+}
 vi.mock("../../services/getOrders", async () => ({
   getOrders: vi.fn(),
 }));
@@ -57,17 +60,18 @@ const mockOrders = [
 ];
 
 describe("<Orders />", () => {
-  const handleRenderOrders = (userRole) => {
-    const mockUser = userRole ? { role: userRole } : null;
+
+const handleRenderOrders = (userRole: string | null): void => {
+    const mockUser: User | null = userRole ? { role: userRole } : null;
     (useSession as Mock).mockReturnValue({ user: mockUser });
     render(
-      <MemoryRouter>
-        <SessionProvider>
-          <Orders />
-        </SessionProvider>
-      </MemoryRouter>
+        <MemoryRouter>
+            <SessionProvider>
+                <Orders />
+            </SessionProvider>
+        </MemoryRouter>
     );
-  };
+};
   it("should render the orders", async () => {
     mockGetOrders.mockResolvedValue(mockOrders);
     handleRenderOrders("visualizer");
