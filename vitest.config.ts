@@ -5,5 +5,17 @@ export default defineConfig({
         environment: 'jsdom',
         globals: true,
         setupFiles: ['./src/setupTest.ts'],
+        coverage: {
+            exclude: [
+                '**/*.config.ts',
+                '**/*.config.js',
+                '**/*.types.ts',
+                '**/*.d.ts',
+                '**/types',
+            ],
+            thresholds: {
+                functions: 80,
+            }
+        }
     }
 })
